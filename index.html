@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanderwise - Plan Smarter. Travel Wiser.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-900 text-gray-100 font-inter">
+    <!-- Navbar -->
+    <nav class="bg-slate-900/95 backdrop-blur-sm fixed w-full z-50 border-b border-slate-800">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-gradient-to-r from-teal-400 to-yellow-400 rounded-lg flex items-center justify-center">
+                        <span class="text-slate-900 font-bold text-lg">W</span>
+                    </div>
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-teal-400 to-yellow-400 bg-clip-text text-transparent">
+                        Wanderwise
+                    </h1>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-300 hover:text-teal-400 transition-colors">Home</a>
+                    <a href="#plan" class="text-gray-300 hover:text-teal-400 transition-colors">Plan Trip</a>
+                    <a href="#explore" class="text-gray-300 hover:text-teal-400 transition-colors">Explore</a>
+                    <a href="#about" class="text-gray-300 hover:text-teal-400 transition-colors">About</a>
+                </div>
+                <button class="md:hidden text-gray-300 hover:text-teal-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-20 pb-16 px-4 min-h-screen flex items-center">
+        <div class="container mx-auto text-center">
+            <div class="floating-animation mb-8">
+                <div class="inline-block p-4 bg-gradient-to-r from-teal-500/20 to-yellow-500/20 rounded-full border border-teal-500/30">
+                    <svg class="w-16 h-16 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </div>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-bold mb-6">
+                <span class="bg-gradient-to-r from-teal-400 via-blue-400 to-yellow-400 bg-clip-text text-transparent">
+                    Plan Smarter.
+                </span>
+                <br>
+                <span class="bg-gradient-to-r from-yellow-400 via-teal-400 to-blue-400 bg-clip-text text-transparent">
+                    Travel Wiser.
+                </span>
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                Discover personalized itineraries crafted for your unique travel style. 
+                From budget backpacking to luxury escapes, let AI guide your next adventure.
+            </p>
+            
+            <button onclick="scrollToPlanner()" class="glow-button bg-gradient-to-r from-teal-500 to-yellow-500 text-slate-900 px-8 py-4 rounded-full font-semibold text-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                Start Planning Your Journey
+            </button>
+        </div>
+    </section>
+
+    <!-- Trip Planning Form -->
+    <section id="plan" class="py-16 px-4 bg-slate-800/50">
+        <div class="container mx-auto max-w-4xl">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4 bg-gradient-to-r from-teal-400 to-yellow-400 bg-clip-text text-transparent">
+                    Plan Your Perfect Trip
+                </h2>
+                <p class="text-gray-300 text-lg">Tell us your preferences and we'll create a personalized itinerary</p>
+            </div>
+
+            <form id="planningForm" class="bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-slate-700 shadow-2xl">
+                <div class="grid md:grid-cols-3 gap-6 mb-8">
+                    <!-- City Selection -->
+                    <div class="space-y-2">
+                        <label class="block text-teal-400 font-semibold text-sm uppercase tracking-wide">Destination</label>
+                        <select id="citySelect" class="w-full bg-slate-900/80 border border-slate-600 rounded-lg px-4 py-3 text-gray-100 focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-400/20 transition-all">
+                            <option value="">Choose your city</option>
+                            <option value="paris">Paris, France</option>
+                            <option value="tokyo">Tokyo, Japan</option>
+                            <option value="newyork">New York, USA</option>
+                        </select>
+                    </div>
+
+                    <!-- Travel Style -->
+                    <div class="space-y-2">
+                        <label class="block text-teal-400 font-semibold text-sm uppercase tracking-wide">Travel Style</label>
+                        <select id="styleSelect" class="w-full bg-slate-900/80 border border-slate-600 rounded-lg px-4 py-3 text-gray-100 focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-400/20 transition-all">
+                            <option value="">Select your style</option>
+                            <option value="adventure">Adventure Seeker</option>
+                            <option value="cultural">Cultural Explorer</option>
+                            <option value="luxury">Luxury Traveler</option>
+                            <option value="budget">Budget Backpacker</option>
+                        </select>
+                    </div>
+
+                    <!-- Budget -->
+                    <div class="space-y-2">
+                        <label class="block text-teal-400 font-semibold text-sm uppercase tracking-wide">Budget Range</label>
+                        <select id="budgetSelect" class="w-full bg-slate-900/80 border border-slate-600 rounded-lg px-4 py-3 text-gray-100 focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-400/20 transition-all">
+                            <option value="">Choose budget</option>
+                            <option value="low">$50-150/day</option>
+                            <option value="medium">$150-300/day</option>
+                            <option value="high">$300+/day</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="glow-button bg-gradient-to-r from-teal-500 to-yellow-500 text-slate-900 px-8 py-4 rounded-full font-semibold text-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                        Generate My Itinerary
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Itinerary Results -->
+    <section id="itinerary" class="py-16 px-4 hidden">
+        <div class="container mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4 bg-gradient-to-r from-teal-400 to-yellow-400 bg-clip-text text-transparent">
+                    Your Personalized Itinerary
+                </h2>
+                <p class="text-gray-300 text-lg">Discover amazing places tailored to your preferences</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Itinerary Cards -->
+                <div id="itineraryCards" class="space-y-6">
+                    <!-- Cards will be dynamically generated -->
+                </div>
+
+                <!-- Interactive Map -->
+                <div class="lg:sticky lg:top-24">
+                    <div class="bg-slate-800/80 backdrop-blur-sm rounded-2xl p-6 border border-slate-700 shadow-2xl">
+                        <h3 class="text-xl font-semibold mb-4 text-teal-400">Explore Your Route</h3>
+                        <div id="map" class="w-full h-96 rounded-lg overflow-hidden"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-8 px-4">
+        <div class="container mx-auto text-center">
+            <div class="flex items-center justify-center space-x-2 mb-4">
+                <div class="w-6 h-6 bg-gradient-to-r from-teal-400 to-yellow-400 rounded-lg flex items-center justify-center">
+                    <span class="text-slate-900 font-bold text-sm">W</span>
+                </div>
+                <span class="text-xl font-bold bg-gradient-to-r from-teal-400 to-yellow-400 bg-clip-text text-transparent">
+                    Wanderwise
+                </span>
+            </div>
+            <p class="text-gray-400 mb-4">Crafted with ❤️ for travelers who dream big</p>
+          <p class="text-gray-400 mb-4">Riya Verma</p>
+            <p class="text-gray-500 text-sm">© 2025 Wanderwise. A portfolio project showcasing modern UI/UX design.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -16,7 +16,9 @@ It also provides an **interactive map** with plotted attractions so you can visu
 ---
 
 ## Demo Preview
-![Wanderwise Demo](https://via.placeholder.com/1200x600.png?text=Wanderwise+Preview)  
+![Wanderwise Demo]
+<img width="1361" height="640" alt="image" src="https://github.com/user-attachments/assets/c6ea8b87-b95c-4019-816c-85d783b8799a" />
+
 
 ---
 
